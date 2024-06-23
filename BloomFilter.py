@@ -64,8 +64,5 @@ class BloomFilter:
         return True
     
     def __str__(self):  
-        pass
+        return "The bloom filter in string form is % s" % (self.bit_vector) 
                     
-        
-        
-#bl=BloomFilter(64,99)

@@ -22,7 +22,8 @@ class BloomFilter:
     
     @classmethod
     def calc_length(self, n1, n2): 
-        pass
+        n = (-(n1*math.log(n2))/(math.log(2))**2) 
+        return n
     
     @classmethod
     def optimum_hashes(self, n1, n2): 

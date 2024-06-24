@@ -86,4 +86,20 @@ class BloomFilter:
     
     def __str__(self):  
         return "The bloom filter in string form is % s" % (self.bit_vector)
-                    
+
+#Question.no.7
+    def _init_(self, expected_num=0, prob=0):
+        '''
+        expected_num: Number of words stored in the bloom filter
+        prob: False Positives probability
+        '''
+        self.length=self.calc_length(expected_num, prob)
+        self.prob=prob
+        self.hash_num=self.optimum_hashes(self.length ,expected_num)
+        #commit only the following line
+        self.C=self.compute_cr(self.length, expected_num)
+        try:
+            self.bit_vector=int(self.length)*bitarray('0')
+        except ValueError as exp:
+            print(f"An exception of the type {exp} has occurred")
+

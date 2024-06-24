@@ -1,0 +1,58 @@
+SLURM_JOB_ID: 61719508
+SLURM_JOB_USER: vsc36355
+SLURM_JOB_ACCOUNT: lp_h_ds_2023_2024
+SLURM_JOB_NAME: jobscript.slurm
+SLURM_CLUSTER_NAME: wice
+SLURM_JOB_PARTITION: batch
+SLURM_NNODES: 1
+SLURM_NODELIST: p33c32n4
+SLURM_JOB_CPUS_PER_NODE: 1
+Date: Mon Jun 24 17:15:53 CEST 2024
+Walltime: 00-03:00:00
+========================================================================
+Requirement already satisfied: pip in ./myenvtest/lib/python3.11/site-packages (24.1)
+
+Usage:   
+  /vsc-hard-mounts/leuven-user/363/vsc36355/myenvtest/bin/python -m pip install [options] <requirement specifier> [package-index-options] ...
+  /vsc-hard-mounts/leuven-user/363/vsc36355/myenvtest/bin/python -m pip install [options] -r <requirements file> [package-index-options] ...
+  /vsc-hard-mounts/leuven-user/363/vsc36355/myenvtest/bin/python -m pip install [options] [-e] <vcs project url> ...
+  /vsc-hard-mounts/leuven-user/363/vsc36355/myenvtest/bin/python -m pip install [options] [-e] <local project path> ...
+  /vsc-hard-mounts/leuven-user/363/vsc36355/myenvtest/bin/python -m pip install [options] <archive url/path> ...
+
+no such option: --upgrade pip setuptools
+Requirement already satisfied: mmh3 in ./myenvtest/lib/python3.11/site-packages (4.1.0)
+Collecting hmac
+  Using cached hmac-20101005.tar.gz (4.5 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: setuptools in ./myenvtest/lib/python3.11/site-packages (from hmac) (65.5.0)
+INFO: pip is looking at multiple versions of hmac to determine which version is compatible with other requirements. This could take a while.
+ERROR: Ignored the following yanked versions: 20081119
+ERROR: Could not find a version that satisfies the requirement hashlib (from hmac) (from versions: none)
+ERROR: No matching distribution found for hashlib
+Requirement already satisfied: bitarray in ./myenvtest/lib/python3.11/site-packages (2.9.2)
+Requirement already satisfied: BloomFilter in ./myenvtest/lib/python3.11/site-packages (0.1.0)
+Requirement already satisfied: numpy in ./myenvtest/lib/python3.11/site-packages (2.0.0)
+Requirement already satisfied: wonderwords in ./myenvtest/lib/python3.11/site-packages (2.2.0)
+Requirement already satisfied: matplotlib in ./myenvtest/lib/python3.11/site-packages (3.9.0)
+Requirement already satisfied: contourpy>=1.0.1 in ./myenvtest/lib/python3.11/site-packages (from matplotlib) (1.2.1)
+Requirement already satisfied: cycler>=0.10 in ./myenvtest/lib/python3.11/site-packages (from matplotlib) (0.12.1)
+Requirement already satisfied: fonttools>=4.22.0 in ./myenvtest/lib/python3.11/site-packages (from matplotlib) (4.53.0)
+Requirement already satisfied: kiwisolver>=1.3.1 in ./myenvtest/lib/python3.11/site-packages (from matplotlib) (1.4.5)
+Requirement already satisfied: numpy>=1.23 in ./myenvtest/lib/python3.11/site-packages (from matplotlib) (2.0.0)
+Requirement already satisfied: packaging>=20.0 in ./myenvtest/lib/python3.11/site-packages (from matplotlib) (24.1)
+Requirement already satisfied: pillow>=8 in ./myenvtest/lib/python3.11/site-packages (from matplotlib) (10.3.0)
+Requirement already satisfied: pyparsing>=2.3.1 in ./myenvtest/lib/python3.11/site-packages (from matplotlib) (3.1.2)
+Requirement already satisfied: python-dateutil>=2.7 in ./myenvtest/lib/python3.11/site-packages (from matplotlib) (2.9.0.post0)
+Requirement already satisfied: six>=1.5 in ./myenvtest/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib) (1.16.0)
+Size of Bloom Filter: 311
+Optimal number of Hahes for the Bloom Filter: 4
+Bloom Filter created
+Present Data passed
+False Positive:  CTCAGTCTACCGCGCTAACTGAAC bitarray('11100110001000110000110010000011010101001010100110001001101001110000100011010000010110010101000101010111111110000101001111011010010010110010111100010010011101000010011010111001001110011100011001011011001101110000000001001011000010101101100110110100001110101011110101110011101110000001101011101001000101000001011')
+False Positive:  GAGGTCT bitarray('11100110001000110000110010000011010101001010100110001001101001110000100011010000010110010101000101010111111110000101001111011010010010110010111100010010011101000010011010111001001110011100011001011011001101110000000001001011000010101101100110110100001110101011110101110011101110000001101011101001000101000001011')
+False Positive:  CCTTAACCTTAAT bitarray('11100110001000110000110010000011010101001010100110001001101001110000100011010000010110010101000101010111111110000101001111011010010010110010111100010010011101000010011010111001001110011100011001011011001101110000000001001011000010101101100110110100001110101011110101110011101110000001101011101001000101000001011')

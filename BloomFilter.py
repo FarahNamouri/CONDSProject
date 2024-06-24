@@ -97,23 +97,34 @@ class BloomFilter:
         return "The bloom filter in string form is % s" % (self.bit_vector)
 
 #Question.no.7
-    def _init_(self, expected_num=0, prob=0):
-        '''
-        expected_num: Number of words stored in the bloom filter
-        prob: False Positives probability
-        '''
-        self.length=self.calc_length(expected_num, prob)
-        self.prob=prob
-        self.hash_num=self.optimum_hashes(self.length ,expected_num)
-        #commit only the following line
-        self.C=self.compute_cr(self.length, expected_num)
-        try:
-            self.bit_vector=int(self.length)*bitarray('0')
-        except ValueError as exp:
-            print(f"An exception of the type {exp} has occurred")
+def fp_bloomfilter(expec, p, adding, max_adds, length_test):
+    bloom_filter_test = BloomFilter(expec, p)
+    added_items = 0
+    
+    words_in_BF = [str(i) for i in range(max_adds)]
+    words_not_in_BF = [str(i) for i in range(max_adds, max_adds + length_test)]
+    
+    "adding words and calculating FPR"
+    fp_rates = []
+    for word in words_in_BF:
+        bloom_filter_test.insert(word)
+        added_items += 1
+        if added_items % adding== 0:
+            fp = 0
+            for word_test in words_not_in_BF:
+                if bloom_filter_test.verify(word_test):
+                    fp += 1
+            fp_rate = fp / length_test
+            fp_rates.append((added_items, fp_rate))
+    return fp_rates
 
-# computing the CR test (for question 8)
-n = 1000  
+#testing
+expec = 4 
 p = 0.01  
-bfilter=BloomFilter(n,p)
-print(f"The CR 'compression rate' is : {bfilter.C:.5f}")
+adding = 6  
+max_adds = 6  
+length_test = 8 
+
+fp_rates = fp_bloomfilter(expec, p, adding, max_adds, length_test)
+for count, rate in fp_rates:
+    print(f"The number of the added items is {count}, the FP rate is {rate:.4f}")

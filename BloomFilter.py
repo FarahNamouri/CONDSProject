@@ -8,7 +8,6 @@ from hashlib import pbkdf2_hmac
 from bitarray import bitarray
 
 class BloomFilter:
-    #bit_vector=BitVector(size=0)
     
     def __init__(self, expected_num=0, prob=0):
         self.length=self.calc_length(expected_num, prob)
@@ -25,7 +24,8 @@ class BloomFilter:
     
     @classmethod
     def optimum_hashes(self, n1, n2): 
-        pass
+        n=((n1/n2)*math.log(2))
+        return int(n)
     
     def insert(self, data):
         pass

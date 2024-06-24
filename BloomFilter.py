@@ -44,6 +44,8 @@ class BloomFilter:
         '''
         adding item to the bloom filter
         '''
+        if type(data) is int:
+            data=str(data)
         if self.verify(data)==False:
             position_pointer=0
             for i in range(self.hash_num):
@@ -61,6 +63,8 @@ class BloomFilter:
         '''
         verifying if an element is in the bloom filter
         '''
+        if type(data) is int:
+            data=str(data)
         position_verify=[None]*int(self.length)
         position_pointer=0
         for i in range(self.hash_num):

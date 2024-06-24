@@ -1,0 +1,10 @@
+Question 5
+- insert plot
+The plot shows how time taken by the insert function changes with increasing sizes of the data set.
+As we can see from the obtained plot, it starts with an increase, which is expected because in the beginning of the insert function, we will verify first if the hash input exists or not. Then, we start inserting. In fact, we can say that we have 2 functions running at this point. Later, we can see the line is decreasing as the sample size increases, and when the sample size is big enough, we observe a logarithmic function.
+The time complexity isn't O(k) as it may be impacted by various facotrs other than the number of hash functions.
+
+- verify plot
+We know that the time complexity by the verify function is influenced by the number of hash functions but also by the bit array size. We can see that the time complexity is indeed linear O(k) for the verify function.
+The space completely is relative to the bit array size. The space complexity is linear.
+

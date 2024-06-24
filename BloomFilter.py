@@ -19,6 +19,7 @@ class BloomFilter:
         self.length=self.calc_length(expected_num, prob)
         self.prob=prob
         self.hash_num=self.optimum_hashes(self.length ,expected_num)
+        self.C=self.compute_cr(self.length, expected_num)
         try:
             self.bit_vector=int(self.length)*bitarray('0')
         except ValueError as exp:

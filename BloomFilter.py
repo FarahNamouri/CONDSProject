@@ -31,6 +31,14 @@ class BloomFilter:
         '''
         n = (-(n1*math.log(n2))/(math.log(2))**2) 
         return n
+        
+    # Question 8
+    @classmethod
+    def compute_cr(self,m,expected_num):
+        '''
+        calculating the compression rate (CR)
+        '''
+        return m/expected_num
     
     @classmethod
     def optimum_hashes(self, n1, n2):
@@ -103,3 +111,8 @@ class BloomFilter:
         except ValueError as exp:
             print(f"An exception of the type {exp} has occurred")
 
+# computing the CR test (for question 8)
+n = 1000  
+p = 0.01  
+bfilter=BloomFilter(n,p)
+print(f"The CR 'compression rate' is : {bfilter.C:.5f}")

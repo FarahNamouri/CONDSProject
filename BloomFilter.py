@@ -8,8 +8,14 @@ from hashlib import pbkdf2_hmac
 from bitarray import bitarray
 
 class BloomFilter:
-    
+    '''
+    Bloom Filter Class
+    '''
     def __init__(self, expected_num=0, prob=0):
+        '''
+        expected_num: Number of words stored in the bloom filter
+        prob: False Positives probability
+        '''
         self.length=self.calc_length(expected_num, prob)
         self.prob=prob
         self.hash_num=self.optimum_hashes(self.length ,expected_num)
@@ -20,15 +26,24 @@ class BloomFilter:
     
     @classmethod
     def calc_length(self, n1, n2): 
+        '''
+        calculating size of array
+        '''
         n = (-(n1*math.log(n2))/(math.log(2))**2) 
         return n
     
     @classmethod
-    def optimum_hashes(self, n1, n2): 
+    def optimum_hashes(self, n1, n2):
+        '''
+        calculating number of hash functions to use
+        '''
         n=((n1/n2)*math.log(2))
         return int(n)
     
     def insert(self, data):
+        '''
+        adding item to the bloom filter
+        '''
         if self.verify(data)==False:
             position_pointer=0
             for i in range(self.hash_num):
@@ -43,6 +58,9 @@ class BloomFilter:
             print('The Input probably already exists')
 
     def verify(self, data):
+        '''
+        verifying if an element is in the bloom filter
+        '''
         position_verify=[None]*int(self.length)
         position_pointer=0
         for i in range(self.hash_num):

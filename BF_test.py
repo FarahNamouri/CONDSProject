@@ -1,4 +1,5 @@
 #!usr/bin/env/ pyhton
+# importing necessary packages
 import math
 import mmh3
 from hashlib import sha256
@@ -12,16 +13,24 @@ from wonderwords import RandomSentence
 import time
 import matplotlib.pyplot as plt
 
-
-
+# setting the seed
 np.random.seed(0)
 random.seed(0)
 
-length=50
-probability=0.05
-max_size=25
+# declaring the properties
+length = 50
+probability = 0.05
+max_size = 25
 
-def DNA_data_generate(length):
+
+def DNA_data_generate(length: int):
+    """
+    Function to generate the dna sequence
+    Args:
+    length: int
+    Output:
+    returns a list of the DNA sequence
+    """
     lst=[]
     for i in range(length):
         seq_length = random.randint(1,max_size)
@@ -37,19 +46,16 @@ def DNA_data_generate2(length,lst_prior):
             lst.append(temp)
     return lst
 
-
+# test function 
 def test(data1,data2):
-    
     lst1=data1
     lst2=data2
-
     bl=BloomFilter(length,probability)
     print('Size of Bloom Filter:', int(bl.length))
-    print('Optimal number of Hahes for the Bloom Filter:', int(bl.hash_num))
+    print('Optimal number of hahes for the Bloom Filter:', int(bl.hash_num))
 
     for i in range(length):
         bl.insert(lst1[i])
-    
     print('Bloom Filter created')
 
     #test
@@ -76,14 +82,10 @@ def gen_sentence_data():
     for i in range(length):
         s = RandomSentence()
         lst.append(s.sentence())
-    
     return lst
-
-
-    
 
 data1=DNA_data_generate(length)
 data2=DNA_data_generate2(length, data1)
 
-
+# calling test function
 test(data1,data2)

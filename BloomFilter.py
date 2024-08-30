@@ -142,20 +142,49 @@ def fp_bloomfilter(expec, p, adding, max_adds, length_test):
             fp_rates.append((added_items, fp_rate))
     return fp_rates
 
-#testing
-expec = 4 
-p = 0.01  
-adding = 6  
-max_adds = 6  
-length_test = 8 
 
-fp_rates = fp_bloomfilter(expec, p, adding, max_adds, length_test)
-for count, rate in fp_rates:
-    print(f"The number of the added items is {count}, the FP rate is {rate:.4f}")
-
-# calculating the compression rate (question 8)
+# testing for creating the bloom filter
 n = 1000  
 p = 0.01  
 bfilter=BloomFilter(n,p)
-compression_rate = bfilter.compute_cr(n, p, b=32)
-print(f"The Compression Rate is: {compression_rate:.2f}")
+
+# test function for calculating the compression rate (question 8)
+def test_compute_cr():
+    bloom_filter_to_test = BloomFilter(100, 0.01)
+
+    # test case: small and negative items_number
+    try:
+        bloom_filter_to_test.compute_cr(0, 0.01, 32)
+    except ValueError as v:
+        assert str(v) == "Number of items must be greater than 0."
+    try:
+        bloom_filter_to_test.compute_cr(-100, 0.01, 32)
+    except ValueError as v:
+        assert str(v) == "Number of items should not be negative."
+    
+    # test case: FP_proba=0 and FP_proba=1
+    try:
+        bloom_filter_to_test.compute_cr(1000, 0, 32)
+    except ValueError as v:
+        assert str(v) == "False positive probability 'FP_proba' must be in [0,1]."
+    try:
+        bloom_filter_to_test.compute_cr(1000, 1, 32)
+    except ValueError as v:
+        assert str(v) == "False positive probability 'FP_proba'must be in [0,1]."
+    try:
+        bloom_filter_to_test.compute_cr(1000, -0.01, 32)
+    except ValueError as v:
+        assert str(v) == "False positive probability 'FP_proba'must be in [0,1]."
+    
+    # test case: number of bits equal to 0 and -1
+    try:
+        bloom_filter_to_test.compute_cr(1000, 0.01, 0)
+    except ValueError as v:
+        assert str(v) == "Bits per item 'bits_number' must be greater than 0."
+    try:
+        bloom_filter_to_test.compute_cr(1000, 0.01, -1)
+    except ValueError as v:
+        assert str(v) == "Bits per item 'bits_number' should not be negative."
+
+# run the test cases
+test_compute_cr()

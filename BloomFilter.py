@@ -11,10 +11,10 @@ class BloomFilter:
     '''
     Bloom Filter Class
     '''
-    def __init__(self, expected_num=0, prob=0):
+    def __init__(self, expected_num: int, prob: float):
         '''
-        expected_num (int): Number of words stored in the bloom filter
-        prob (float): False Positives probability
+        expected_num: Number of words stored in the bloom filter
+        prob: False Positives probability
         '''
         self.length = self.calc_length(expected_num, prob)
         self.prob = prob
@@ -35,11 +35,22 @@ class BloomFilter:
         
     # Question 8
     @classmethod
-    def compute_cr(self, m, expected_num):
+    def compute_cr(self, items_number, FP_proba, bits_number = 32):
         '''
         calculating the compression rate (CR)
+        
+        Parameters:
+        items_number (int): number of items to be sorted in bloom filter
+        FP_proba (float): wanted False Positive probability
+        bits_number (int): number of bits per element
+
+        Returns:
+        Compression rate of bloom filter (float)
         '''
-        return m/expected_num
+        m = self.calc_length(items_number, FP_proba)
+        old_length = items_number * bits_number
+        comp_rate = old_length / m
+        return comp_rate
     
     @classmethod
     def optimum_hashes(self, item1, item2):
@@ -68,7 +79,7 @@ class BloomFilter:
                     # secure hashing and calculating posistion in the bit_vector array
                     position_pointer = int(pbkdf2_hmac('sha256', data.encode('utf-8'), str(i).encode('utf-8') * 2, 500_000).hex(), 16)%int(self.length)
                     self.bit_vector[position_pointer] = True
-            print('The Input didn't exist already, hence it has been added.')
+            print('The Input did not exist already, hence it has been added.')
         else:
             print('The Input probably already exists.')
 
@@ -130,3 +141,10 @@ length_test = 8
 fp_rates = fp_bloomfilter(expec, p, adding, max_adds, length_test)
 for count, rate in fp_rates:
     print(f"The number of the added items is {count}, the FP rate is {rate:.4f}")
+
+# calculating the compression rate (question 8)
+n = 1000  
+p = 0.01  
+bfilter=BloomFilter(n,p)
+compression_rate = bfilter.compute_cr(n, p, b=32)
+print(f"The Compression Rate is: {compression_rate:.2f}")

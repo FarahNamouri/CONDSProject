@@ -47,9 +47,20 @@ class BloomFilter:
         Returns:
         Compression rate of bloom filter (float)
         '''
-        m = self.calc_length(items_number, FP_proba)
+        # checking the inputs
+        if items_number <= 0:
+            raise ValueError("The number of items must start from 1.")
+        if bits_number <= 0:
+            raise ValueError("The number of bits per element must be larger than 0.")
+        if not (0 < FP_proba < 1):
+            raise ValueError("The probability should always be in the interval [0,1].")
+            
+        # computing the size of the bloom filter
+        size_bloom_filter = self.calc_length(items_number, FP_proba)
+        # computing the size of a normal (traditional) data structure
         old_length = items_number * bits_number
-        comp_rate = old_length / m
+        # calculating the compression rate
+        comp_rate = old_length / size_bloom_filter
         return comp_rate
     
     @classmethod

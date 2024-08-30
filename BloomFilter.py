@@ -13,29 +13,29 @@ class BloomFilter:
     '''
     def __init__(self, expected_num=0, prob=0):
         '''
-        expected_num: Number of words stored in the bloom filter
-        prob: False Positives probability
+        expected_num (int): Number of words stored in the bloom filter
+        prob (float): False Positives probability
         '''
-        self.length=self.calc_length(expected_num, prob)
-        self.prob=prob
-        self.hash_num=self.optimum_hashes(self.length ,expected_num) # number of hashes
-        self.C=self.compute_cr(self.length, expected_num)
+        self.length = self.calc_length(expected_num, prob)
+        self.prob = prob
+        self.hash_num = self.optimum_hashes(self.length ,expected_num) # number of hashes
+        self.C = self.compute_cr(self.length, expected_num)
         try:
-            self.bit_vector=int(self.length)*bitarray('0')
+            self.bit_vector = int(self.length) * bitarray('0')
         except ValueError as exp:
-            print(f"An exception of the type {exp} has occured")
+            print(f"An exception of the type {exp} has occured.")
     
     @classmethod
-    def calc_length(self, n1, n2): 
+    def calc_length(self, n1: int, n2: float): 
         '''
-        calculating size of array
+        calculating size of array given the number of elements (n1) and the false positive probability (n2)
         '''
-        n = (-(n1*math.log(n2))/(math.log(2))**2) 
-        return n
+        n = (-(n1 * math.log(n2)) / (math.log(2)) ** 2) 
+        return int(n)
         
     # Question 8
     @classmethod
-    def compute_cr(self,m,expected_num):
+    def compute_cr(self, m, expected_num):
         '''
         calculating the compression rate (CR)
         '''
@@ -53,15 +53,19 @@ class BloomFilter:
         '''
         adding an item to the bloom filter
         '''
+        # verify if the type of data is integer or string
         if type(data) is int:
             data = str(data)
         if self.verify(data) == False:
+            # initializitng a position pointer to 0
             position_pointer = 0
             for i in range(self.hash_num):
                 if i%2 == 0:
-                    position_pointer = int(mmh3.hash128(data, i, False)%int(self.length))
+                    # setting a certain bit in the array bit vector of bloom filter based on the hash of the input
+                    position_pointer = int(mmh3.hash128(data, i, False) % int(self.length))
                     self.bit_vector[position_pointer] = True
                 else:
+                    # secure hashing and calculating posistion in the bit_vector array
                     position_pointer = int(pbkdf2_hmac('sha256', data.encode('utf-8'), str(i).encode('utf-8') * 2, 500_000).hex(), 16)%int(self.length)
                     self.bit_vector[position_pointer] = True
             print('The Input didn't exist already, hence it has been added.')
@@ -70,11 +74,11 @@ class BloomFilter:
 
     def verify(self, data):
         '''
-        verifying if an element is in the bloom filter
+        verifying whether an element is in the bloom filter
         '''
         if type(data) is int:
             data = str(data)
-        position_verify = [None]*int(self.length)
+        position_verify = [None] * int(self.length)
         position_pointer = 0
         for i in range(self.hash_num):
             if i%2 == 0:

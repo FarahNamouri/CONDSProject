@@ -29,21 +29,26 @@ class BloomFilter:
     def calc_length(self, n1: int, n2: float) -> int: 
         '''
         calculating size of array given the number of elements (n1) and the false positive probability (n2)
+        
+        parameters:
+        n1 (int): number of elements in the bloom filter
+        n2 (float): false positive probability
+
+        returns
+        size of a bloom filter (int)
         '''
         return int(-(n1 * math.log(n2)) / (math.log(2) ** 2))
         
     # Question 8
     def compute_cr(self, items_number, bits_number = 32):
         '''
-        calculating the compression rate (CR)
+        calculating the compression rate (CR) of a bloom filter as a function of the expected number of elements and the rate of false positives 
         
-        Parameters:
+        parameters:
         items_number (int): number of items to be sorted in bloom filter
-        FP_proba (float): wanted False Positive probability
-        bits_number (int): number of bits per element
-        m: size of bloom filter
+        bits_number (int): number of bits per element (default = 32)
 
-        Returns:
+        returns:
         Compression rate of bloom filter (float)
         '''
         # calculating again the bloom filter's size
@@ -56,16 +61,15 @@ class BloomFilter:
         comp_rate = (old_length / m) * math.exp(-items_number / m)
         return comp_rate
      
-    def plot_cr(self, items_number, bits_number=32):
+    def plot_cr(self, items_number, bits_number =32):
         """
         plotting the compression rate of a bloomfilter as a function of the expected number of elements and the rate of false positives.
 
-        Parameters:
-        n_values (list of int): values for the number of items expected to be stored in the filter
-        FP_values (list of float): false positive probabilities values
-        b (int): the number of bits per element in a data structure (by default 32)
+        parameters:
+        items_number (list of int): values for the number of items expected to be stored in the filter
+        bits_number (int): the number of bits per element in a data structure (by default 32)
 
-        Returns
+        returns
         plot (graph)
         """
     
@@ -73,20 +77,18 @@ class BloomFilter:
         compression_rates = []
 
         for n in items_number:
-            # Calculate the compression rate for each combination of n and p
             compression_rate = self.compute_cr(n, bits_number)
             compression_rates.append(compression_rate)
 
-            # Plot compression rate as a function of n for a given p
         plt.plot(items_number, compression_rates, marker='o')
 
-        # Labeling the plot
+        # naming and labeling the plot
         plt.title('Compression Rate of Bloom Filter vs Number of Items')
-        plt.xlabel('Number of Items (n)')
+        plt.xlabel('Number of Items in the bloom filter')
         plt.ylabel('Compression Rate')
         plt.grid(True)
 
-        # Display the plot
+        # showing the plot
         plt.show()
     
 
@@ -155,10 +157,11 @@ bfilter=BloomFilter(n,p)
 result = bfilter.compute_cr(100,32)
 print(f'The compression rate is {result}.')
 
+# compression rate and its plot
 n_first = 10000  
 p_wanted = 0.05   
-bloom_filter = BloomFilter(n_first, p_wanted)
+bloom_filter =BloomFilter(n_first, p_wanted)
 
-n_values = [100, 500, 1000, 5000, 10000, 20000, 50000, 100000]  # Example values for n (number of items)
+n_values = [100, 500, 1000, 5000, 10000, 20000, 50000, 100000]  
 
 bloom_filter.plot_cr(n_values)

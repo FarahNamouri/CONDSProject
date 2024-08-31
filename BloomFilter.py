@@ -7,6 +7,7 @@ import hmac,hashlib,io
 from hashlib import pbkdf2_hmac
 from bitarray import bitarray
 
+
 class BloomFilter:
     '''
     Bloom Filter Class
@@ -25,17 +26,14 @@ class BloomFilter:
         except ValueError as exp:
             print(f"An exception of the type {exp} has occured.")
     
-    @classmethod
-    def calc_length(self, n1: int, n2: float): 
+    def calc_length(self, n1: int, n2: float) -> int: 
         '''
         calculating size of array given the number of elements (n1) and the false positive probability (n2)
         '''
-        n = (-(n1 * math.log(n2)) / (math.log(2)) ** 2) 
-        return int(n)
+        return int(-(n1 * math.log(n2)) / (math.log(2) ** 2))
         
     # Question 8
-    @classmethod
-    def compute_cr(self, items_number, FP_proba, bits_number = 32):
+    def compute_cr(self, items_number, bits_number = 32):
         '''
         calculating the compression rate (CR)
         
@@ -43,19 +41,55 @@ class BloomFilter:
         items_number (int): number of items to be sorted in bloom filter
         FP_proba (float): wanted False Positive probability
         bits_number (int): number of bits per element
+        m: size of bloom filter
 
         Returns:
         Compression rate of bloom filter (float)
         '''
-        # computing the size of the bloom filter
-        size_bloom_filter = self.calc_length(items_number, FP_proba)
+        # calculating again the bloom filter's size
+        m = self.calc_length(items_number, self.prob)
+        
         # computing the size of a normal (traditional) data structure
         old_length = items_number * bits_number
+        
         # calculating the compression rate
-        comp_rate = old_length / size_bloom_filter
+        comp_rate = (old_length / m) * math.exp(-items_number / m)
         return comp_rate
+     
+    def plot_cr(self, items_number, bits_number=32):
+        """
+        plotting the compression rate of a bloomfilter as a function of the expected number of elements and the rate of false positives.
+
+        Parameters:
+        n_values (list of int): values for the number of items expected to be stored in the filter
+        FP_values (list of float): false positive probabilities values
+        b (int): the number of bits per element in a data structure (by default 32)
+
+        Returns
+        plot (graph)
+        """
     
-    @classmethod
+        plt.figure(figsize=(10, 6))
+        compression_rates = []
+
+        for n in items_number:
+            # Calculate the compression rate for each combination of n and p
+            compression_rate = self.compute_cr(n, bits_number)
+            compression_rates.append(compression_rate)
+
+            # Plot compression rate as a function of n for a given p
+        plt.plot(items_number, compression_rates, marker='o')
+
+        # Labeling the plot
+        plt.title('Compression Rate of Bloom Filter vs Number of Items')
+        plt.xlabel('Number of Items (n)')
+        plt.ylabel('Compression Rate')
+        plt.grid(True)
+
+        # Display the plot
+        plt.show()
+    
+
     def optimum_hashes(self, item1, item2):
         '''
         calculating number of hash functions to use
@@ -112,34 +146,19 @@ class BloomFilter:
     def __str__(self):  
         return "The bloom filter in string form is % s" % (self.bit_vector)
 
-#Question.no.7
-def fp_bloomfilter(expec, p, adding, max_adds, length_test):
-    bloom_filter_test = BloomFilter(expec, p)
-    added_items = 0
-    
-    words_in_BF = [str(i) for i in range(max_adds)]
-    words_not_in_BF = [str(i) for i in range(max_adds, max_adds + length_test)]
-    
-    "adding words and calculating FPR"
-    fp_rates = []
-    for word in words_in_BF:
-        bloom_filter_test.insert(word)
-        added_items += 1
-        if added_items % adding== 0:
-            fp = 0
-            for word_test in words_not_in_BF:
-                if bloom_filter_test.verify(word_test):
-                    fp += 1
-            fp_rate = fp / length_test
-            fp_rates.append((added_items, fp_rate))
-    return fp_rates
-
-
 # testing for creating the bloom filter
 n = 1000  
-p = 0.01  
+p = 0.05  
 bfilter=BloomFilter(n,p)
 
-# testing for calculating the compression rate (basic case)
-result = bfilter.compute_cr(100,0.05,32)
+#testing for calculating the compression rate 
+result = bfilter.compute_cr(100,32)
 print(f'The compression rate is {result}.')
+
+n_first = 10000  
+p_wanted = 0.05   
+bloom_filter = BloomFilter(n_first, p_wanted)
+
+n_values = [100, 500, 1000, 5000, 10000, 20000, 50000, 100000]  # Example values for n (number of items)
+
+bloom_filter.plot_cr(n_values)

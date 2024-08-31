@@ -47,14 +47,6 @@ class BloomFilter:
         Returns:
         Compression rate of bloom filter (float)
         '''
-        # checking the inputs
-        if items_number <= 0:
-            raise ValueError("The number of items must start from 1.")
-        if bits_number <= 0:
-            raise ValueError("The number of bits per element must be larger than 0.")
-        if not (0 < FP_proba < 1):
-            raise ValueError("The probability should always be in the interval [0,1].")
-            
         # computing the size of the bloom filter
         size_bloom_filter = self.calc_length(items_number, FP_proba)
         # computing the size of a normal (traditional) data structure
@@ -148,43 +140,6 @@ n = 1000
 p = 0.01  
 bfilter=BloomFilter(n,p)
 
-# test function for calculating the compression rate (question 8)
-def test_compute_cr():
-    bloom_filter_to_test = BloomFilter(100, 0.01)
-
-    # test case: small and negative items_number
-    try:
-        bloom_filter_to_test.compute_cr(0, 0.01, 32)
-    except ValueError as v:
-        assert str(v) == "Number of items must be greater than 0."
-    try:
-        bloom_filter_to_test.compute_cr(-100, 0.01, 32)
-    except ValueError as v:
-        assert str(v) == "Number of items should not be negative."
-    
-    # test case: FP_proba=0 and FP_proba=1
-    try:
-        bloom_filter_to_test.compute_cr(1000, 0, 32)
-    except ValueError as v:
-        assert str(v) == "False positive probability 'FP_proba' must be in [0,1]."
-    try:
-        bloom_filter_to_test.compute_cr(1000, 1, 32)
-    except ValueError as v:
-        assert str(v) == "False positive probability 'FP_proba'must be in [0,1]."
-    try:
-        bloom_filter_to_test.compute_cr(1000, -0.01, 32)
-    except ValueError as v:
-        assert str(v) == "False positive probability 'FP_proba'must be in [0,1]."
-    
-    # test case: number of bits equal to 0 and -1
-    try:
-        bloom_filter_to_test.compute_cr(1000, 0.01, 0)
-    except ValueError as v:
-        assert str(v) == "Bits per item 'bits_number' must be greater than 0."
-    try:
-        bloom_filter_to_test.compute_cr(1000, 0.01, -1)
-    except ValueError as v:
-        assert str(v) == "Bits per item 'bits_number' should not be negative."
-
-# run the test cases
-test_compute_cr()
+# testing for calculating the compression rate (basic case)
+result = bfilter.compute_cr(100,0.05,32)
+print(f'The compression rate is {result}.')

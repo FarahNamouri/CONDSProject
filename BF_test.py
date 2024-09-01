@@ -12,39 +12,20 @@ import random
 from wonderwords import RandomSentence
 import time
 import matplotlib.pyplot as plt
+import json
+from gen_data import DNA_data_generate,DNA_data_generate2
+
+#prepare for Question 7 and Question 8
 
 # setting the seed
 np.random.seed(0)
 random.seed(0)
 
 # declaring the properties
-length = 50
+length = 5
 probability = 0.05
-max_size = 25
+max_size = 2
 
-
-def DNA_data_generate(length: int):
-    """
-    Function to generate the dna sequence
-    Args:
-    length: int
-    Output:
-    returns a list of the DNA sequence
-    """
-    lst=[]
-    for i in range(length):
-        seq_length = random.randint(1,max_size)
-        lst.append(''.join(np.random.choice(('C','G','T','A'), seq_length )))
-    return lst
-
-def DNA_data_generate2(length,lst_prior):
-    lst=[]
-    for i in range(length):
-        seq_length = random.randint(1,max_size)
-        temp=''.join(np.random.choice(('C','G','T','A'), seq_length ))
-        if temp not in (lst_prior):
-            lst.append(temp)
-    return lst
 
 # test function 
 def test(data1,data2):
@@ -77,15 +58,24 @@ def test(data1,data2):
         print('Non-present Data passed')
 
 
-def gen_sentence_data():
-    lst=[]
-    for i in range(length):
-        s = RandomSentence()
-        lst.append(s.sentence())
-    return lst
+#data1=DNA_data_generate(length)
+#data2=DNA_data_generate2(length, data1)
 
-data1=DNA_data_generate(length)
-data2=DNA_data_generate2(length, data1)
+with open("input_data.txt", 'r') as file:
+    data = file.read().strip()
+    data_list = eval(data) 
+
+data1=data_list
+
+print(data1)
+
+with open("check_data.txt", 'r') as file:
+    data = file.read().strip()
+    data_list = eval(data) 
+
+data2=data_list
+
+print(data2)
 
 # calling test function
 test(data1,data2)

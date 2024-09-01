@@ -14,7 +14,7 @@ import time
 import matplotlib.pyplot as plt
 import json
 
-#prepare for Question 7 and Question 8
+# this function generates 2 data files (2 data types): input_data and check_data.
 
 # setting the seed
 np.random.seed(0)
@@ -85,16 +85,15 @@ def DNA_number2(length,lst_prior):
             i+=1
     return lst
 
-#print(data1,"\n",data2)
-
-
 data1=DNA_number(length)
 data2=DNA_number2(length, data1)
 
+# input_data inputs data into the Bloom filter
 f = open('input_data.txt', 'w')
 json.dump(data1, f)
 f.close()
 
+# check_data creates a datafile that doesn't have the data that already been in the input
 f = open('check_data.txt', 'w')
 json.dump(data2, f)
 f.close()

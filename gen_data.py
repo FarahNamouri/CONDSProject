@@ -51,3 +51,16 @@ def DNA_data_generate2(length,lst_prior):
             lst.append(temp)
             i+=1
     return lst
+
+data1=DNA_data_generate(length)
+data2=DNA_data_generate2(length, data1)
+
+#print(data1,"\n",data2)
+
+f = open('input_data.txt', 'w')
+json.dump(data1, f)
+f.close()
+
+f = open('check_data.txt', 'w')
+json.dump(data2, f)
+f.close()

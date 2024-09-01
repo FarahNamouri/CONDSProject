@@ -13,3 +13,29 @@ from wonderwords import RandomSentence
 import time
 import matplotlib.pyplot as plt
 import json
+
+
+#prepare for Question 7 and Question 8
+
+# setting the seed
+np.random.seed(0)
+random.seed(0)
+
+# declaring the properties
+length = 100000
+probability = 0.05
+max_size = 100
+
+def DNA_data_generate(length: int):
+    """
+    Function to generate the dna sequence
+    Args:
+    length: int
+    Output:
+    returns a list of the DNA sequence
+    """
+    lst=[]
+    for i in range(length):
+        seq_length = random.randint(1,max_size)
+        lst.append(''.join(np.random.choice(('C','G','T','A'), seq_length )))
+    return lst

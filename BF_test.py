@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 import json
 from gen_data import DNA_data_generate,DNA_data_generate2, DNA_number, DNA_number2
 
-#prepare for Question 7 and Question 8
+# takes the data from the text file and first inputs that data into a Bloom filter, then checks if the data that aren't inside it are actually working or not
 
 # setting the seed
 np.random.seed(0)

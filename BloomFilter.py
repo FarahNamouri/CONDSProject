@@ -91,7 +91,6 @@ class BloomFilter:
         # showing the plot
         plt.show()
     
-
     def optimum_hashes(self, item1, item2):
         '''
         calculating number of hash functions to use
@@ -147,6 +146,18 @@ class BloomFilter:
     
     def __str__(self):  
         return "The bloom filter in string form is % s" % (self.bit_vector)
+
+    def compute_fpr(self, entered_n: int) -> float:
+        '''
+        calculating the value of the false positive rate
+        
+        parameters:
+        entered_n (int): number of the entered/inserted items in a bloom filter
+
+        returns
+        false positive rate (float)
+        '''
+        return (1 - (1 - 1/self.length) ** (self.hash_num * entered_n)) ** self.hash_num
 
 # testing for creating the bloom filter
 n = 1000  

@@ -14,7 +14,6 @@ import time
 import matplotlib.pyplot as plt
 import json
 
-
 #prepare for Question 7 and Question 8
 
 # setting the seed
@@ -40,7 +39,6 @@ def DNA_data_generate(length: int):
         lst.append(''.join(np.random.choice(('C','G','T','A'), seq_length )))
     return lst
 
-
 def DNA_data_generate2(length,lst_prior):
     lst=[]
     i=0
@@ -50,6 +48,13 @@ def DNA_data_generate2(length,lst_prior):
         if temp not in (lst_prior):
             lst.append(temp)
             i+=1
+    return lst
+
+def gen_sentence_data():
+    lst=[]
+    for i in range(length):
+        s = RandomSentence()
+        lst.append(s.sentence())
     return lst
 
 data1=DNA_data_generate(length)

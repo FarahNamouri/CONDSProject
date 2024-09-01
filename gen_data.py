@@ -39,3 +39,15 @@ def DNA_data_generate(length: int):
         seq_length = random.randint(1,max_size)
         lst.append(''.join(np.random.choice(('C','G','T','A'), seq_length )))
     return lst
+
+
+def DNA_data_generate2(length,lst_prior):
+    lst=[]
+    i=0
+    while i != length:
+        seq_length = random.randint(1,max_size)
+        temp=''.join(np.random.choice(('C','G','T','A'), seq_length ))
+        if temp not in (lst_prior):
+            lst.append(temp)
+            i+=1
+    return lst

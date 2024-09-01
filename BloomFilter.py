@@ -26,6 +26,7 @@ class BloomFilter:
         except ValueError as exp:
             print(f"An exception of the type {exp} has occured.")
     
+    # methods
     def calc_length(self, n1: int, n2: float) -> int: 
         '''
         calculating size of array given the number of elements (n1) and the false positive probability (n2)
@@ -38,59 +39,7 @@ class BloomFilter:
         size of a bloom filter (int)
         '''
         return int(-(n1 * math.log(n2)) / (math.log(2) ** 2))
-        
-    # Question 8
-    def compute_cr(self, items_number, bits_number = 32):
-        '''
-        calculating the compression rate (CR) of a bloom filter as a function of the expected number of elements and the rate of false positives 
-        
-        parameters:
-        items_number (int): number of items to be sorted in bloom filter
-        bits_number (int): number of bits per element (default = 32)
 
-        returns:
-        Compression rate of bloom filter (float)
-        '''
-        # calculating again the bloom filter's size
-        m = self.calc_length(items_number, self.prob)
-        
-        # computing the size of a normal (traditional) data structure
-        old_length = items_number * bits_number
-        
-        # calculating the compression rate
-        comp_rate = (old_length / m) * math.exp(-items_number / m)
-        return comp_rate
-     
-    def plot_cr(self, items_number, bits_number =32):
-        """
-        plotting the compression rate of a bloomfilter as a function of the expected number of elements and the rate of false positives.
-
-        parameters:
-        items_number (list of int): values for the number of items expected to be stored in the filter
-        bits_number (int): the number of bits per element in a data structure (by default 32)
-
-        returns
-        plot (graph)
-        """
-    
-        plt.figure(figsize=(10, 6))
-        compression_rates = []
-
-        for n in items_number:
-            compression_rate = self.compute_cr(n, bits_number)
-            compression_rates.append(compression_rate)
-
-        plt.plot(items_number, compression_rates, marker='o')
-
-        # naming and labeling the plot
-        plt.title('Compression Rate of Bloom Filter vs Number of Items')
-        plt.xlabel('Number of Items in the bloom filter')
-        plt.ylabel('Compression Rate')
-        plt.grid(True)
-
-        # showing the plot
-        plt.show()
-    
     def optimum_hashes(self, item1, item2):
         '''
         calculating number of hash functions to use
@@ -146,7 +95,8 @@ class BloomFilter:
     
     def __str__(self):  
         return "The bloom filter in string form is % s" % (self.bit_vector)
-
+    
+    # Question 7
     def compute_fpr(self, entered_n: int) -> float:
         '''
         calculating the value of the false positive rate
@@ -159,20 +109,100 @@ class BloomFilter:
         '''
         return (1 - (1 - 1/self.length) ** (self.hash_num * entered_n)) ** self.hash_num
 
+    def plot_fpr(self, values_n):
+        '''
+        plotting the false positive rate as a function of the number of words inserted in the bloom filter
+        
+        parameters:
+        values_n (integers' list): the values of numbers of items to be sorted in the bloom filter
+
+        returns
+        plot (graph)
+        '''
+        plt.figure(figsize=(10,5))
+        # list that will contain the false positive rates
+        fp_rates= []
+        for entered_n in values_n:
+            # computing the false positive rate for each enetered item (entered_n)
+            fp_rate = self.compute_fpr(entered_n)
+            fp_rates.append(fp_rate)
+
+        plt.plot(values_n, fp_rates,marker='o')
+        plt.title("False Positive rate of the number of words inserted in the bloom filter")
+        plt.xlabel('Number of Inserted Items (n)')
+        plt.ylabel('False Positive Rate')
+        plt.grid(True)
+        plt.show()
+        
+    # Question 8
+    def compute_cr(self, items_number, bits_number = 32):
+        '''
+        calculating the compression rate (CR) of a bloom filter as a function of the expected number of elements and the rate of false positives 
+        
+        parameters:
+        items_number (int): number of items to be sorted in bloom filter
+        bits_number (int): number of bits per element (default = 32)
+
+        returns:
+        Compression rate of bloom filter (float)
+        '''
+        # calculating again the bloom filter's size
+        m = self.calc_length(items_number, self.prob)
+        
+        # computing the size of a normal (traditional) data structure
+        old_length = items_number * bits_number
+        
+        # calculating the compression rate
+        comp_rate = (old_length / m) * math.exp(-items_number / m)
+        return comp_rate
+     
+    def plot_cr(self, items_number, bits_number =32):
+        """
+        plotting the compression rate of a bloomfilter as a function of the expected number of elements and the rate of false positives.
+
+        parameters:
+        items_number (list of int): values for the number of items expected to be stored in the filter
+        bits_number (int): the number of bits per element in a data structure (by default 32)
+
+        returns
+        plot (graph)
+        """
+    
+        plt.figure(figsize=(10, 6))
+        compression_rates = []
+
+        for n in items_number:
+            compression_rate = self.compute_cr(n, bits_number)
+            compression_rates.append(compression_rate)
+
+        plt.plot(items_number, compression_rates, marker='o')
+
+        # naming and labeling the plot
+        plt.title('Compression Rate of Bloom Filter vs Number of Items')
+        plt.xlabel('Number of Items in the bloom filter')
+        plt.ylabel('Compression Rate')
+        plt.grid(True)
+        plt.show()
+    
 # testing for creating the bloom filter
 n = 1000  
 p = 0.05  
 bfilter=BloomFilter(n,p)
 
-#testing for calculating the compression rate 
+# false positive rate and its plot (question 7)
+n_expected = 10000  
+fp_probability_desired = 0.01    
+bloom_filter = BloomFilter(n_expected, fp_probability_desired)
+result_fpr = bfilter.compute_fpr(5)
+print(f'The false positive rate is {result_fpr}.')
+values_n = [100, 1000, 5000, 10000, 20000, 50000, 100000] 
+bloom_filter.plot_fpr(values_n)
+
+# calculating the compression rate and its plot (question 8)
 result = bfilter.compute_cr(100,32)
 print(f'The compression rate is {result}.')
-
-# compression rate and its plot
 n_first = 10000  
-p_wanted = 0.05   
+p_wanted = 0.05 
 bloom_filter =BloomFilter(n_first, p_wanted)
-
 n_values = [100, 500, 1000, 5000, 10000, 20000, 50000, 100000]  
-
 bloom_filter.plot_cr(n_values)

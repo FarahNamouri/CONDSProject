@@ -12,7 +12,7 @@ from wonderwords import RandomSentence,RandomWord
 import time
 import matplotlib.pyplot as plt
 
-def generate_words(n=0):
+def generate_words(n = 0):
     '''
     Generating words function
     '''
@@ -24,23 +24,21 @@ def generate_words(n=0):
 
 def main():
     print('verify')
-    data=generate_words(1000)
+    data = generate_words(1000)
     data_list = list(data)
     # optimal sizes chosen
     sizes = [10, 50,75, 100,200,350, 500, 1_000,5_000]
-
     samples = [
         random.sample(data_list, k=size) for size in sizes
     ]
-
+    # number of runs
     nr_runs = 3
     times = {}
     verify_sample = random.sample(data_list, k=20)
-    i=0
-
+    i = 0
     for sample in samples:
         btree = BloomFilter(sizes[i],0.05)
-        i+=1
+        i += 1
         for word in sample:
             btree.insert(word)
         times[len(sample)] = 0.0

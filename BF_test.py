@@ -13,7 +13,7 @@ from wonderwords import RandomSentence
 import time
 import matplotlib.pyplot as plt
 import json
-from gen_data import DNA_data_generate,DNA_data_generate2
+from gen_data import DNA_data_generate,DNA_data_generate2, DNA_number, DNA_number2
 
 #prepare for Question 7 and Question 8
 
@@ -26,51 +26,80 @@ length = 5
 probability = 0.05
 max_size = 2
 
+
 # test function 
 def test(data1,data2):
-    lst1 = data1
-    lst2 = data2
-    bl = BloomFilter(length,probability)
-    print('Size of Bloom Filter: ', int(bl.length))
-    print('Optimal number of hahes for the Bloom Filter: ', int(bl.hash_num))
+    lst1=data1
+    lst2=data2
+    bl=BloomFilter(length,probability)
+    print('Size of Bloom Filter:', int(bl.length))
+    print('Optimal number of hahes for the Bloom Filter:', int(bl.hash_num))
 
     for i in range(length):
         bl.insert(lst1[i])
     print('Bloom Filter created')
 
     #test
-    count1 = 0
-    count2 = 0
-    false_count = 0
+    count1=0
+    count2=0
+    false_count=0
     for i in range(len(lst1)):
-        if bl.verify(lst1[i]) == True:
-            count1 += 1
-    if count1 == len(lst1):
+        if bl.verify(lst1[i])==True:
+            count1+=1
+    if count1==len(lst1):
         print('Present Data passed')
             
     for i in range(len(lst2)):
-        if bl.verify(lst2[i]) == False:
-            count2 += 1
+        if bl.verify(lst2[i])==False:
+            count2+=1
         else:
             print('False Positive: ', lst2[i], bl.bit_vector)
-    if count2 == len(lst2):
+    if count2==len(lst2):
         print('Non-present Data passed')
 
-# opening the text file in read mode
+
+#data1=DNA_data_generate(length)
+#data2=DNA_data_generate2(length, data1)
+
+#retrieving data
+
 with open("input_data.txt", 'r') as file:
     data = file.read().strip()
     data_list = eval(data) 
 
 data1=data_list
+
 print(data1)
 
-# opening the text file in read mode
 with open("check_data.txt", 'r') as file:
     data = file.read().strip()
     data_list = eval(data) 
 
-data2 = data_list
+data2=data_list
+
 print(data2)
+
+# calling test function
+test(data1,data2)
+
+#retrieving data
+
+with open("input_data2.txt", 'r') as file:
+    data = file.read().strip()
+    data_list = eval(data) 
+
+data1=data_list
+
+print(data1)
+
+with open("check_data2.txt", 'r') as file:
+    data = file.read().strip()
+    data_list = eval(data) 
+
+data2=data_list
+
+print(data2)
+
 
 # calling test function
 test(data1,data2)

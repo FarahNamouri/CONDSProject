@@ -24,6 +24,7 @@ random.seed(0)
 length = 100000
 probability = 0.05
 max_size = 100
+max_value =100000000
 
 def DNA_data_generate(length: int):
     """
@@ -60,12 +61,48 @@ def gen_sentence_data():
 data1=DNA_data_generate(length)
 data2=DNA_data_generate2(length, data1)
 
+def DNA_number(length: int):
+    """
+    Function to generate the nunbers
+    Args:
+    length: int
+    Output:
+    returns a list of numbers
+    """
+    lst=[]
+    for i in range(length):
+        lst.append(random.randint(1, max_value))
+    return lst
+
+
+def DNA_number2(length,lst_prior):
+    lst=[]
+    i=0
+    while i != length:
+        temp=(random.randint(1, max_value))
+        if temp not in (lst_prior):
+            lst.append(temp)
+            i+=1
+    return lst
+
 #print(data1,"\n",data2)
+
+
+data1=DNA_number(length)
+data2=DNA_number2(length, data1)
 
 f = open('input_data.txt', 'w')
 json.dump(data1, f)
 f.close()
 
 f = open('check_data.txt', 'w')
+json.dump(data2, f)
+f.close()
+
+f = open('input_data2.txt', 'w')
+json.dump(data1, f)
+f.close()
+
+f = open('check_data2.txt', 'w')
 json.dump(data2, f)
 f.close()
